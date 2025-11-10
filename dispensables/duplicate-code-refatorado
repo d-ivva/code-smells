@@ -1,0 +1,41 @@
+public class Main {
+    public static void main(String[] args) {
+        ProfessorTemporario temp = new ProfessorTemporario("Fernando Rodrigues Gabriel", "12345678900", 6000.0, 0, 150.0);
+        temp.imprimirSalario();
+    }
+}
+
+class Professor {
+    private String nome, cpf;
+    private double salarioBase;
+
+    public Professor(String nome, String cpf, double salarioBase) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.salarioBase = salarioBase;
+    }
+
+    public double calcularSalario() {
+        return salarioBase;
+    }
+
+    public void imprimirSalario() {
+        System.out.println("Salário do professor " + nome + ": R$ " + calcularSalario());
+    }
+}
+
+class ProfessorTemporario extends Professor {
+    private int horasExtrasTrabalhadas;
+    private double valorHora;
+
+    public ProfessorTemporario(String nome, String cpf, double salarioBase, int horasExtrasTrabalhadas, double valorHora) {
+        super(nome, cpf, salarioBase);
+        this.horasExtrasTrabalhadas = horasExtrasTrabalhadas;
+        this.valorHora = valorHora;
+    }
+
+    @Override
+    public double calcularSalario() {
+        return super.calcularSalario() + (horasExtrasTrabalhadas * valorHora);
+    }
+}
