@@ -1,0 +1,33 @@
+// Classe criada por um programador
+class AvaliacaoProfessor {
+    public double calcularMediaDesempenho(double aulas, double feedback, double pontualidade) {
+        return (aulas + feedback + pontualidade) / 3;
+    }
+}
+
+// Classe criada por outro programador
+class RecontratacaoProfessor {
+    public double getScoreProfessor(double numeroAulas, double avaliacaoAlunos, double pontualidade) {
+        return (numeroAulas + avaliacaoAlunos + pontualidade) / 3;
+    }
+}
+
+
+// solução
+
+
+interface Avaliavel {
+    double calcularDesempenho(double aulas, double feedback, double pontualidade);
+}
+
+class AvaliacaoProfessor implements Avaliavel {
+    public double calcularDesempenho(double aulas, double feedback, double pontualidade) {
+        return (aulas + feedback + pontualidade) / 3;
+    }
+}
+
+class RecontratacaoProfessor implements Avaliavel {
+    public double calcularDesempenho(double aulas, double feedback, double pontualidade) {
+        return (aulas + feedback + pontualidade) / 3;
+    }
+}
