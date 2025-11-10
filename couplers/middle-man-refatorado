@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+import java.util.List;
+
+//codigo refatorado
+public class Main {
+    public static void main(String[] args) {
+        ProfessorTemporario professor1 = new ProfessorTemporario("Fernando Rodrigues Gabriel");
+
+        AtribuicaoDeDisciplinas atribuicao1 = new AtribuicaoDeDisciplinas(professor1);
+
+        atribuicao1.adicionarDisciplina("Redes de Computadores");
+        atribuicao1.adicionarDisciplina("Engenharia de Software II");
+        atribuicao1.listarDisciplinas();
+    }
+}
+
+class ProfessorTemporario {
+    private String nome;
+
+    public ProfessorTemporario(String nome) {
+        this.nome = nome;
+    }
+    public String getNome() {
+        return nome;
+    }
+}
+
+class AtribuicaoDeDisciplinas {
+    private ProfessorTemporario professor;
+    private List<String> disciplinas;
+
+    public AtribuicaoDeDisciplinas(ProfessorTemporario professor) {
+        this.professor = professor;
+        this.disciplinas = new ArrayList<>();
+    }
+    public void adicionarDisciplina(String disciplina) {
+        disciplinas.add(disciplina);
+        System.out.println("Disciplina " + disciplina + " atribuída ao professor " + professor.getNome());
+    }
+    public void listarDisciplinas() {
+        System.out.println("Disciplinas atribuídas a " + professor.getNome() + ": " + disciplinas);
+    }
+}
