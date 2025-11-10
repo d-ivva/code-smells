@@ -1,0 +1,57 @@
+import java.util.ArrayList;
+import java.util.List;
+
+//codigo com Middle Man
+public class Main {
+    public static void main(String[] args) {
+        ProfessorTemporario professor1 = new ProfessorTemporario("Fernando Rodrigues Gabriel");
+
+        GerenciadorAtribuicoes gerenciador1 = new GerenciadorAtribuicoes(professor1);
+
+        gerenciador1.adicionarDisciplina("Redes de Computadores");
+        gerenciador1.adicionarDisciplina("Engenharia de Software II");
+        gerenciador1.listarDisciplinas();
+    }
+}
+
+class ProfessorTemporario {
+    private String nome;
+
+    public ProfessorTemporario(String nome) {
+        this.nome = nome;
+    }
+    public String getNome() {
+        return nome;
+    }
+}
+
+class AtribuicaoDeDisciplinas {
+    private ProfessorTemporario professor;
+    private List<String> disciplinas;
+
+    public AtribuicaoDeDisciplinas(ProfessorTemporario professor) {
+        this.professor = professor;
+        this.disciplinas = new ArrayList<>();
+    }
+    public void adicionarDisciplina(String disciplina) {
+        disciplinas.add(disciplina);
+        System.out.println("Disciplina " + disciplina + " atribuída ao professor " + professor.getNome());
+    }
+    public void listarDisciplinas() {
+        System.out.println("Disciplinas atribuídas a " + professor.getNome() + ": " + disciplinas);
+    }
+}
+
+class GerenciadorAtribuicoes {
+    private AtribuicaoDeDisciplinas atribuicao;
+
+    public GerenciadorAtribuicoes(ProfessorTemporario professor) {
+        this.atribuicao = new AtribuicaoDeDisciplinas(professor);
+    }
+    public void adicionarDisciplina(String disciplina) {
+        atribuicao.adicionarDisciplina(disciplina);
+    }
+    public void listarDisciplinas() {
+        atribuicao.listarDisciplinas();
+    }
+}
