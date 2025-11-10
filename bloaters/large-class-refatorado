@@ -1,0 +1,113 @@
+public class Main {
+    public static void main(String[] args) {
+        ProfessorTemporario professor = new ProfessorTemporario(
+            "Fernando Rodrigues Gabriel",
+            "123.456.789-00",
+            "98765",
+            "Engenharia de Software II",
+            "Graduação"
+        );
+
+        Notificador notificador = new Notificador();
+        GerenciadorDeCargaHoraria gerenciador = new GerenciadorDeCargaHoraria(professor);
+        AtribuicaoDisciplina atribuicao = new AtribuicaoDisciplina(gerenciador, notificador);
+
+        System.out.println(professor);
+
+        atribuicao.atribuirMateria("Engenharia de Software II", 15);
+        atribuicao.atribuirMateria("Redes de Computadores", 10);
+        gerenciador.verificarCargaHoraria();
+    }
+}
+
+class ProfessorTemporario {
+    private String nomeCompleto, cpf, siape, departamento, titulacao;
+    private int cargaHorariaAtual;
+    private static final int LIMITE_CARGA_HORARIA = 40;
+
+    public ProfessorTemporario (String nomeCompleto, String cpf, String siape, 
+                     String departamento, String titulacao) {
+        this.nomeCompleto = nomeCompleto;
+        this.cpf = cpf;
+        this.siape = siape;
+        this.departamento = departamento;
+        this.titulacao = titulacao;
+        this.cargaHorariaAtual = 0;
+    } //construtor omitido
+
+    public String getNomeCompleto() { return nomeCompleto; }
+    public String getDepartamento() { return departamento; }
+    public int getCargaHorariaTotal() { return cargaHorariaAtual; }
+    public int getLimiteCargaHoraria() { return LIMITE_CARGA_HORARIA; }
+
+    public void adicionarCargaHoraria(int horas) {
+        this.cargaHorariaAtual += horas;
+    }
+
+    @Override
+    public String toString() {
+        return "Professor: " + nomeCompleto + 
+               "\nDepartamento: " + departamento + 
+               "\nTitulação: " + titulacao + 
+               "\nCarga Horária Atual: " + cargaHorariaAtual + "h";
+    }
+}
+
+class GerenciadorDeCargaHoraria {
+    private ProfessorTemporario professor;
+
+    public GerenciadorDeCargaHoraria(ProfessorTemporario professor) {
+        this.professor = professor;
+    }
+
+    public boolean adicionarCargaHoraria(int cargaHoraria) {
+        int total = professor.getCargaHorariaTotal();
+        int limite = professor.getLimiteCargaHoraria();
+
+        if (total + cargaHoraria <= limite) {
+            professor.adicionarCargaHoraria(cargaHoraria);
+            return true;
+        }
+        return false;
+    }
+
+    public int getCargaHorariaRestante() {
+        return professor.getLimiteCargaHoraria() - professor.getCargaHorariaTotal();
+    }
+
+    public void verificarCargaHoraria() {
+        System.out.println("Carga horária total de " + professor.getNomeCompleto() + 
+                           ": " + professor.getCargaHorariaTotal() + "h de " + 
+                           professor.getLimiteCargaHoraria() + "h permitidas.");
+    }
+}
+
+class AtribuicaoDisciplina {
+    private GerenciadorDeCargaHoraria gerenciador;
+    private Notificador notificador;
+
+    public AtribuicaoDisciplina(GerenciadorDeCargaHoraria gerenciador, Notificador notificador) {
+        this.gerenciador = gerenciador;
+        this.notificador = notificador;
+    } //construtor omitido
+
+    public void atribuirMateria(String materia, int cargaHoraria) {
+        int restante = gerenciador.getCargaHorariaRestante();
+
+        if (gerenciador.adicionarCargaHoraria(cargaHoraria)) {
+            System.out.println("Matéria '" + materia + "' atribuída com sucesso. (" +
+                               cargaHoraria + "h)");
+            notificador.enviarNotificacao("O professor recebeu a disciplina '" + materia + 
+                                          "'. Restam " + (restante - cargaHoraria) + "h disponíveis.");
+        } else {
+            System.out.println("Não foi possível atribuir '" + materia + 
+                               "'. Limite de carga horária excedido (restam apenas " + restante + "h).");
+        }
+    }
+}
+
+class Notificador {
+    public void enviarNotificacao(String mensagem) {
+        System.out.println("Notificação: " + mensagem);
+    }
+}
