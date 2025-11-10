@@ -1,0 +1,58 @@
+//com code smell
+public class Main {
+    public static void main(String[] args) {
+        ProfessorTemporario profTemp1 = new ProfessorTemporario(
+            "Fernando Rodrigues Gabriel",
+            "123.456.789-00",
+            "98765",
+            "Engenharia de Software II",
+            "Graduação",
+            "Banco ABC - Conta 1234"
+        );
+
+        profTemp1.registrarProfessor();
+        profTemp1.atribuirMateria("Programação Orientada a Objetos", 20);
+        profTemp1.atribuirMateria("Engenharia de Software I", 15);
+        profTemp1.atribuirMateria("Redes de Computadores", 10);
+        profTemp1.verificarCargaHoraria();
+    }
+}
+
+class ProfessorTemporario {
+    private String nomeCompleto, cpf, siape, departamento, titulacao, dadosBancarios;
+    private int cargaHorariaTotal;
+    private static final int limiteCargaHoraria = 40;
+    //construtor omitido
+    public ProfessorTemporario(String nomeCompleto, String cpf, String siape, String departamento, String titulacao, 
+                               String dadosBancarios) {
+        this.nomeCompleto = nomeCompleto;
+        this.cpf = cpf;
+        this.siape = siape;
+        this.departamento = departamento;
+        this.titulacao = titulacao;
+        this.dadosBancarios = dadosBancarios;
+        this.cargaHorariaTotal = 0;
+    }
+
+    public void registrarProfessor() {
+        System.out.println("Professor " + nomeCompleto + " registrado no departamento de " + departamento + ".");
+    }
+
+    public void atribuirMateria(String disc, int cargaHoraria) {
+        if (cargaHorariaTotal + cargaHoraria <= limiteCargaHoraria) {
+            cargaHorariaTotal += cargaHoraria;
+            System.out.println("Disciplina " + disc + " atribuída a " + nomeCompleto + ".");
+            notificarAtribuicao(disc);
+        } else {
+            System.out.println("Não foi possível atribuir " + disc + ". Limite de carga horária excedido" + limiteCargaHoraria + "h).");
+        }
+    }
+
+    public void notificarAtribuicao(String disc) {
+        System.out.println("Notificação enviada: " + nomeCompleto + " recebeu a disciplina " + disc + ".");
+    }
+
+    public void verificarCargaHoraria() {
+        System.out.println("Carga horária total de " + nomeCompleto + ": " + cargaHorariaTotal + "h.");
+    }
+}
